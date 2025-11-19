@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Productos | Colormania{% endblock %}
+
+{% block contenido %}
+
+
+<div class="page-header">
+    <h2>Productos:</h2>
+    <a href="{% url 'colormania:crear_producto' %}" class="btn btn-primary">+ Agregar Producto</a>
+</div>
+
+<ul class="product-grid">
+    {% for producto in productos %}
+    <li class="product-card">
+        <a href="{% url 'colormania:detalle_producto' producto.id %}">
+            {% if producto.foto_producto %}
+            <img src="{{ producto.foto_producto.url }}" alt="{{ producto.nombre }}" class="product-img">
+            {% else %}
+            <div class="product-placeholder">📦</div>
+            {% endif %}
+            <div class="product-info">
+                <h3>{{ producto.nombre }}</h3>
+                <p class="product-category">{{ producto.categoria }}</p>
+                <p class="product-price">${{ producto.precio }}</p>
+                <p class="product-stock">Stock: {{ producto.stock }}</p>
+                <p class="product-supplier">{{ producto.id_proveedor.nombre_empresa }}</p>
+            </div>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-items">No hay productos registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
